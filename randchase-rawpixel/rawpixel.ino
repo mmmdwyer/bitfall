@@ -37,7 +37,12 @@
 // try decreasing this until your pixels start to flicker. 
 //
 // Width of the low gap between bits to cause a frame to latch
-#define RES 250000    
+//
+// This was only used in the show() function, which I removed because the
+// delay_us call didn't exist in the Digispark board package. I am instead
+// using a conventional delay(). It is probably much too long, but that's 
+// better than too short.
+// #define RES 250000
 
 // Here are some convience defines for using nanoseconds specs to 
 // generate actual CPU delays Note that this has to be SIGNED since 
@@ -167,8 +172,11 @@ inline void sendPixel( unsigned char r, unsigned char g , unsigned char b )  {
 
 // Just wait long enough without sending any bits to cause the pixels 
 // to latch and display the last sent frame
-// There is a minimum delay here, but I didn't calculate it. I just
-// count on my frame delay being long enough to skip this whole call.
+// There is a minimum delay here based on RES in the original code, but
+// I didn't have a delay_us() available, so I just replaced it with what
+// I hope was a long enough conventional delay.  It's probably excessive,
+// but it works for my needs, and I ended up not using it anyway. I just
+// use a sufficiently-long inter-frame delay to serve as a RESET.
 void show() {
   delay(10);
 }
